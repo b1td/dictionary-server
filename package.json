@@ -9,5 +9,8 @@
     },
     "keywords": [],
     "author": "Manzhin Denis",
-    "license": "ISC"
+    "license": "ISC",
+    "dependencies": {
+        "nodemon": "^2.0.6"
+    }
 }

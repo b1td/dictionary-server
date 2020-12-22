@@ -1,23 +1,23 @@
-var fs = require('fs');
-var http = require('http');
-var https = require('https');
-var url = require('url');
+let fs = require('fs');
+let http = require('http');
+let https = require('https');
+let url = require('url');
 
 
-var dictionary = null;
+let dictionary = null;
 
 
 
-var dictionaryHandler = (request, response) => {
-    var decodedUrl = decodeURI(request.url);
-    var u = url.parse(decodedUrl);
+let dictionaryHandler = (request, response) => {
+    let decodedUrl = decodeURI(request.url);
+    let u = url.parse(decodedUrl);
     response.setHeader('Access-Control-Allow-Origin', '*');
         
     if (u.pathname == '/') {
             response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-            response.end('<p style="text-align: left;">Глоссарий терминов</p><hr/><p style="text-align: left; color: #244f84"><a href="./mindmap">Mindmap</a></p>');
+            response.end('<p style="text-align: center;">Это голоссарий терминов.</p><hr/><p style="text-align: center;"><a href="./mindmap">Mindmap</a></p>');
         return;
-    }
+    } 
 
     if (u.pathname == '/readyz') {
         if (dictionary) {
@@ -31,24 +31,24 @@ var dictionaryHandler = (request, response) => {
     }
 
      if (u.pathname == '/mindmap') {
-        fs.readFile("./mindmap.png", function (err,data) {
-            response.writeHead(200, {'Content-Type': 'image/png' });
+        fs.readFile("./mindmap.svg", (err,data) => {
+            response.writeHead(200, {'Content-Type': 'text/html' });
             response.end(data)});
             return;
     }
-
+    
     if (u.pathname == '/json') {
-        fs.readFile("./dictionary.json", function (err,data) {
+        fs.readFile("./dictionary.json", (err,data) => {
             response.writeHead(200, {'Content-Type': 'application/json'});
             response.end(data)});
             return;
     }
 
-    var key = '';
+    let key = '';
     if (u.pathname.length > 0) {
         key = u.pathname.substr(1).toUpperCase(); 
     }
-    var def = dictionary[key];
+    let def = dictionary[key];
     
     if (!def) {
         response.writeHead(404, {'Content-Type': 'text/html; charset=utf-8'});
@@ -59,11 +59,11 @@ var dictionaryHandler = (request, response) => {
     response.end(key + '<hr>' + def);
 }
 
-var downloadDictionary = (url, file, callback) => {
-  var stream = fs.createWriteStream(file);
-  var req = https.get(url, function(res) {
+let downloadDictionary = (url, file, callback) => {
+  let stream = fs.createWriteStream(file);
+  let req = https.get(url, (res) => {
     res.pipe(stream);
-    stream.on('finish', function() {
+    stream.on('finish', () => {
       stream.close(callback);
       console.log('dictionary downloaded');
     });
@@ -73,7 +73,7 @@ var downloadDictionary = (url, file, callback) => {
   });
 };
 
-var loadDictionary = (file, callback) => {
+let loadDictionary = (file, callback) => {
     fs.readFile(file, (err, data) => {
         if (err) {
             console.log(err);

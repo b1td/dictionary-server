@@ -4,4 +4,6 @@ COPY server.js /server.js
 
 RUN npm install
 
+COPY . /
+
 CMD node /server.js
