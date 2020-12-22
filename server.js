@@ -15,9 +15,9 @@ var dictionaryHandler = (request, response) => {
         
     if (u.pathname == '/') {
             response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-            response.end('<p style="text-align: center;">Это голоссарий терминов.</p><hr/><p style="text-align: center;"><a href="./mindmap">Mindmap</a></p>');
+            response.end('<p style="text-align: left;">Глоссарий терминов</p><hr/><p style="text-align: left; color: #244f84"><a href="./mindmap">Mindmap</a></p>');
         return;
-    } 
+    }
 
     if (u.pathname == '/readyz') {
         if (dictionary) {
